@@ -1,5 +1,7 @@
 # Certificate: an exact critical value of a septic CM Hecke L-function
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24504453.svg)](https://doi.org/10.5281/zenodo.24504453)
+
 This repository holds the computer certificate and the manuscript for
 
 > Ramanuja, *An exact critical value of a Hecke L-function over Q(ζ₇): removing the rational ambiguity in Deligne's period relation.*
@@ -56,4 +58,6 @@ The certificate exits with a nonzero status if any check fails.
 
 ## Citation
 
-If you use this code, please cite the paper above.
+If you use this code, please cite the paper above and the archived software release:
+
+> Ramanuja, *Certificate for an exact critical value of a Hecke L-function over Q(ζ₇)*, v1.0, Zenodo, 2026. doi:[10.5281/zenodo.24504453](https://doi.org/10.5281/zenodo.24504453)
