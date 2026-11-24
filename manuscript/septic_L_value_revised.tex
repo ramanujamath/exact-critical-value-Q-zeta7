@@ -1,0 +1,507 @@
+\documentclass[11pt]{amsart}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\OK}{\mathcal{O}_K}
+\newcommand{\Nm}{\mathrm{N}}
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\TSym}{\mathrm{TSym}}
+\newcommand{\Lat}{\mathcal{L}}
+\newcommand{\Per}{\mathcal{P}}
+\newcommand{\Bn}{\mathcal{B}}
+\newcommand{\Fund}{\mathcal{F}}
+\newcommand{\Cond}{\mathfrak{N}}
+
+\title[An exact critical value for a septic CM Hecke character]{An exact critical value of a Hecke $L$-function over $\Q(\zeta_7)$:\\ removing the rational ambiguity in Deligne's period relation}
+\author{Ramanuja}
+\address{Village Kachhubi, Lakhnaur Block, Madhubani District, Bihar 847410, India}
+\email{ramanujamath@yahoo.com}
+\subjclass[2020]{Primary 11M41, 11G40; Secondary 11R18, 11G15, 14K22, 33C20}
+\keywords{Hecke character, complex multiplication, critical $L$-value, Deligne's conjecture, Jacobi-sum Hecke character, Eisenstein--Kronecker class, certified computation}
+
+\begin{document}
+
+\begin{abstract}
+Deligne's conjecture, proved for CM Hecke characters by Blasius, determines a critical Hecke $L$-value only up to an unspecified algebraic, and often rational, factor. Beyond imaginary quadratic fields, this factor has been determined unconditionally in comparatively few cases. We determine it unconditionally for a Hecke character of a sextic CM field. Let $K=\Q(\zeta_7)$ and let $\Psi$ be the conductor-two Hecke character of infinity type $2S$, $S=\{1,4,5\}$, attached to the diagonal tensor-square summand of $H^1$ of the curve $y^2=1-x^7$. We prove
+\[
+L_K(\Psi,2)=\frac{\pi^3}{8\cdot 7^4}\prod_{j=1}^{3}\left(\frac{\Gamma(j/7)}{\Gamma(1/2+j/7)}\right)^{2},
+\qquad
+L_K(\Psi,1)=\frac{1}{8\cdot 7^{3/2}}\prod_{j=1}^{3}\left(\frac{\Gamma(j/7)}{\Gamma(1/2+j/7)}\right)^{2}.
+\]
+The proof combines three ingredients. A degree-zero specialization of the equivariant Eisenstein--Kronecker class of Kings and Sprang gives integral control at the bad primes $2$ and $7$, where the general integrality theorem does not directly apply. Galois descent proves rationality. These place the normalized value in $(2^8\cdot 7)^{-1}\Z$, and a rigorous interval-arithmetic certificate then pins it down exactly. We also give an equivalent evaluation in terms of Clausen-type ${}_3F_2(1)$ values.
+\end{abstract}
+
+\maketitle
+
+%=====================================================================
+\section{Introduction}
+%=====================================================================
+
+\subsection{Background}
+The prototype for exact critical $L$-values is Euler's evaluation $\zeta(2k)\in\pi^{2k}\Q^\times$. For a Hecke character $\chi$ of a CM field, Damerell~\cite{Damerell}, Shimura~\cite{ShimuraCM}, and Katz~\cite{Katz} showed that the critical values $L(\chi,m)$ are algebraic multiples of explicit CM periods. Deligne's conjecture~\cite{Deligne} reformulates this as
+\[
+L(\chi,m)\in c^{\pm}(\chi,m)\cdot E_\chi^{\times},
+\]
+with $c^\pm$ a period of the motive attached to $\chi$ and $E_\chi$ its coefficient field. For CM fields this was proved by Blasius~\cite{Blasius}; see also Harder--Schappacher~\cite{HarderSchappacher}. Kings and Sprang~\cite{KS} recently constructed equivariant Eisenstein--Kronecker classes and proved that suitably normalized critical values of Hecke characters of any totally imaginary field are algebraic integers. Kufner~\cite{Kufner} and Jin--Liu--Sun~\cite{JLS} then completed Deligne's conjecture for all critical Hecke characters; see the survey~\cite{KSsurvey}.
+
+These theorems determine the critical value only up to an element of $E_\chi^\times$. Pinning down that element is a different and much more explicit problem. It is the rational number that the Bloch--Kato conjecture~\cite{BlochKato} interprets arithmetically, and Lichtenbaum's $\Gamma$-hypothesis~\cite{Lichtenbaum} predicts it for Jacobi-sum Hecke characters. Beyond imaginary quadratic fields, unconditional exact evaluations are scarce. The obstruction is not numerical, because such values are easy to compute to high precision. It is the lack of a provable bound on the denominator of the rational factor, especially at primes dividing the conductor or the discriminant.
+
+This paper gives a complete, unconditional example over the sextic CM field $\Q(\zeta_7)$. It also isolates a method that should apply more generally.
+
+\subsection{The character}
+Let $K=\Q(\zeta)$, where $\zeta=e^{2\pi i/7}$, and let $\OK=\Z[\zeta]$. For $a\in(\Z/7\Z)^\times$ let $\sigma_a\in\mathrm{Gal}(K/\Q)$ be the automorphism with $\sigma_a(\zeta)=\zeta^a$. Set
+\[
+S=\{1,4,5\},\qquad \Sigma=\{2,3,6\},\qquad P_T(\alpha)=\prod_{a\in T}\sigma_a(\alpha)\quad (T=S,\Sigma;\ \alpha\in K).
+\]
+Write $\Phi_7(X)=1+X+\dots+X^6$. The factorization $\Phi_7(X)=(X^3+X+1)(X^3+X^2+1)$ in $\F_2[X]$ identifies $\OK/(2)$ with $\F_8\times\F_8$; let $\bar\zeta_1,\bar\zeta_2$ be the two images of $\zeta$. For $\alpha\in\OK$ prime to $2$ with residues $(\bar\zeta_1^{A},\bar\zeta_2^{B})$, put
+\begin{equation}\label{eq:def}
+\nu(\alpha)=\zeta^{4(A+B)},\qquad \Psi((\alpha))=\nu(\alpha)\,P_S(\alpha)^2,
+\end{equation}
+with exponents read modulo $7$. Extend $\nu$ by zero to nonunits modulo $2$. Section~\ref{sec:char} shows that \eqref{eq:def} is a well-defined ideal character of conductor exactly $(2)$ and infinity type $2S$. For $\Re(s)>2$ put
+\[
+L(s)=L_K(\Psi,s)=\sum_{(\mathfrak a,2)=1}\frac{\Psi(\mathfrak a)}{\Nm\mathfrak a^{s}},
+\]
+the sum running over nonzero integral ideals prime to $2$. The Euler factor at $7$ is included. All special values refer to the analytic continuation.
+
+In Section~\ref{sec:geom} we show that $L_K(\Psi,s)$ is the Hasse--Weil $L$-function of the six-dimensional ``diagonal tensor-square'' summand $W_2$ of $H^1(C)^{\otimes2}$ for the curve $C\colon y^2=1-x^7$. Equivalently, $\Psi=\Xi^2$, where $\Xi$ is the Hecke character of $K$ cutting out $H^1(C)$, which is a Jacobi-sum Hecke character in the sense of Weil~\cite{Weil}.
+
+\subsection{Main results}
+For $j=0,1,2$ put
+\[
+I_j=\int_0^1\frac{t^{j}\,dt}{\sqrt{1-t^7}}=\frac17\,B\!\left(\frac{j+1}{7},\frac12\right),
+\]
+where $B(a,b)=\Gamma(a)\Gamma(b)/\Gamma(a+b)$ is Euler's beta function. These are the periods of $C$ (see \eqref{eq:periods}).
+
+\begin{theorem}\label{thm:main}
+The critical values of $\Psi$ are
+\begin{align}
+L_K(\Psi,2)&=\frac{49}{8}\,(I_0I_1I_2)^2=\frac{\pi^3}{8\cdot7^4}\prod_{j=1}^{3}\left(\frac{\Gamma(j/7)}{\Gamma(1/2+j/7)}\right)^{2},\label{eq:main}\\
+L_K(\Psi,1)&=\frac{7^{5/2}}{\pi^{3}}\,L_K(\Psi,2)=\frac{1}{8\cdot7^{3/2}}\prod_{j=1}^{3}\left(\frac{\Gamma(j/7)}{\Gamma(1/2+j/7)}\right)^{2}.\label{eq:main1}
+\end{align}
+Numerically, $L_K(\Psi,2)=0.98236984175983\ldots$ and $L_K(\Psi,1)=4.10743314509123\ldots$.
+\end{theorem}
+
+The integers $s=1,2$ are exactly the critical points of $\Psi$: the gamma factors on both sides of the functional equation \eqref{eq:FE} are regular there. Formula \eqref{eq:main1} follows from \eqref{eq:main} and \eqref{eq:FE}.
+
+\begin{corollary}\label{cor:variants}
+\begin{enumerate}
+\item With $L_K^{(7)}$ denoting the $L$-function with the Euler factor at $7$ removed, $L^{(7)}_K(\Psi,2)=7\,(I_0I_1I_2)^2$.
+\item With $\mathcal H_j={}_3F_2\!\left(\tfrac12,\tfrac j7,1-\tfrac j7;1,1;1\right)$, one has $L(W_2,2)=L_K(\Psi,2)=\dfrac{8\pi^6}{7^5}\,\mathcal H_1\mathcal H_2\mathcal H_3$.
+\end{enumerate}
+\end{corollary}
+
+\subsection{Strategy and what is new}
+Put
+\begin{equation}\label{eq:q}
+\Per=343\,(I_0I_1I_2)^2,\qquad q=\frac{L(2)}{\Per}.
+\end{equation}
+Theorem~\ref{thm:main} is the statement $q=1/56$. The proof has three steps, and only the last uses numerical computation.
+\begin{enumerate}
+\item \emph{Rationality} (Proposition~\ref{prop:rational}). We realize $L(2)/\Per$, up to an explicit algebraic factor, as a coefficient of an equivariant Eisenstein--Kronecker class on the Jacobian of $C$. Galois descent then shows $q\in\Q$. This is consistent with Blasius' theorem, but we need the explicit normalization of the class for the next step.
+\item \emph{Denominator bound} (Proposition~\ref{prop:denominator}). We prove $1792\,q\in\Z$, where $1792=2^8\cdot7$. At primes $p\ne2,7$ this comes from the integrality of the class. At $p=2$ and $p=7$, which divide the conductor and the discriminant, we use a \emph{degree-zero specialization} of the Kings--Sprang class (Lemma~\ref{lem:deg0}) together with explicit integral models of $C$ over tamely ramified extensions. This step is the main technical novelty. It avoids both a CM-eigenspace decomposition of the integral lattice and the invertibility of the order of the torsion section.
+\item \emph{Certification} (Section~\ref{sec:cert}). A rigorous interval-arithmetic evaluation, using an approximate functional equation with explicit tail bounds, gives $|1792q-32|<1/100$. Hence $1792q=32$.
+\end{enumerate}
+
+To our knowledge, Theorem~\ref{thm:main} is the first unconditional determination of the exact rational factor for a critical value of a Hecke character of a CM field of degree greater than two. %% AUTHOR: please confirm this claim against the literature before submission (see in particular Lichtenbaum, Otsubo, and the Kings--Sprang survey).
+It can also be read as an exact verification of the rational form of Lichtenbaum's prediction in one case. The method is general. Any instance with explicit integral models at the bad primes, a smoothing ideal with controlled valuation, and a certified numerical value can be treated the same way.
+
+\subsection{Organization}
+Section~\ref{sec:char} constructs $\Psi$ and the marked Jacobian. Section~\ref{sec:EK} introduces the integral Eisenstein--Kronecker coefficient and compares it with $L(2)$. Section~\ref{sec:descent} proves rationality and the denominator bound. Section~\ref{sec:FE} establishes the functional equation. Section~\ref{sec:cert} contains the certificate and the proof of Theorem~\ref{thm:main}. Section~\ref{sec:geom} gives the geometric interpretation, and Section~\ref{sec:hyp} gives the hypergeometric form. Appendix~\ref{app:repro} documents the computation.
+
+\subsection*{Notation}
+We write $\bar\alpha=\sigma_6(\alpha)$ for complex conjugation and $\Nm=\Nm_{K/\Q}$ for the norm, and $\mu_m$ for the $m$th roots of unity. The symbol $\Delta$ denotes the unit group of \eqref{eq:Delta} (it is called $\Gamma$ in~\cite{KS}). We reserve $\Gamma$ for Euler's gamma function and $\Lambda(s)$ for the completed $L$-function. The period lattice is written $\Lat$.
+
+%=====================================================================
+\section{The character and its period lattice}\label{sec:char}
+%=====================================================================
+
+\subsection{Units, conductor, and Galois covariance}
+The discriminant of $K$ is $D_K=-7^5$, so $|D_K|=7^5$. The Minkowski bound satisfies $(4/\pi)^3\,(6!/6^6)\,7^{5/2}<5$. Since $2$ and $3$ have residue degrees $3$ and $6$, there are no prime ideals of norm $2,3,4$. Hence $K$ has class number one (cf.~\cite[\S11]{Washington}).
+
+The residue-log vectors of the units $\zeta$ and $1+\zeta$ in $(\OK/(2))^\times\cong\mu_7\times\mu_7$ are $(1,1)$ and $(3,5)$. Their determinant is $2\not\equiv0\pmod 7$, so the units surject onto the residue-unit group. Hence the ray class group modulo $(2)$ is trivial. We call a generator $a$ \emph{primary} if $a\equiv1\pmod 2$; every ideal prime to $2$ has a primary generator.
+
+For a unit $u$, the quotient $u/\bar u$ is a root of unity and $P_S(u)^2=\prod_{a\in S}\sigma_a(u/\bar u)$, because $\Nm u=1$. Thus $P_S(u)$ has all conjugates of absolute value one, so it is a root of unity by Kronecker's theorem, and $P_S(u)^2\in\mu_7$. If $u\equiv1\pmod 2$ then $P_S(u)^2=1$, since distinct seventh roots of unity have distinct reductions at $2$. The identities
+\[
+\nu(\zeta)=\zeta,\quad P_S(\zeta)^2=\zeta^6,\qquad \nu(1+\zeta)=\zeta^4,\quad P_S(1+\zeta)^2=\zeta^3
+\]
+show that $\nu(u)P_S(u)^2=1$ for every unit $u$. Therefore \eqref{eq:def} is independent of the chosen generator. The finite character $\nu$ is nontrivial on each residue-field factor, so the conductor is exactly $(2)$. With the convention that the algebraic part on principal ideals is $P_S^2$, the character $\Psi$ has infinity type $2S$, and
+\begin{equation}\label{eq:abs}
+|\Psi(\mathfrak a)|=\Nm\mathfrak a,\qquad \Psi(\sigma_r\mathfrak a)=\sigma_r\Psi(\mathfrak a).
+\end{equation}
+For the second identity, note that $\nu(\sigma_r\alpha)=\sigma_r\nu(\alpha)$: the automorphism $\sigma_2$ doubles both residue logarithms, $\sigma_6$ interchanges and negates them, and these generate $\mathrm{Gal}(K/\Q)$. Finally,
+\begin{equation}\label{eq:euler7}
+\Psi((1-\zeta))=-7,\qquad L_7(s)=(1+7^{1-s})^{-1}.
+\end{equation}
+
+\subsection{The marked Jacobian}
+Let $C$ be the smooth projective curve $y^2=1-x^7$ (genus $3$) and $A=\mathrm{Jac}(C)$. Let $\rho(x,y)=(\zeta x,y)$, also viewed as an automorphism of $A$. For the cohomological argument we use the CM action $\iota\colon\OK\to\mathrm{End}_K(A)$ with $\iota(\zeta)=\rho^3$. Its holomorphic type is $\Sigma$. In the basis
+\[
+\omega_j=x^{j-1}\,\frac{dx}{y}\qquad (j=1,2,3)
+\]
+of holomorphic differentials, the eigencharacters are $\sigma_3,\sigma_6,\sigma_2$.
+
+Take a path from $1$ to $\zeta$ through $0$ on one sheet and return on the other sheet. Its homology class $\gamma$ has periods
+\begin{equation}\label{eq:periods}
+\Omega_j=\int_\gamma\omega_j=2(\zeta^{j}-1)\,I_{j-1}.
+\end{equation}
+With a consistent choice of orientation, the six rotated branch cycles $\gamma,\rho\gamma,\dots,\rho^5\gamma$ have intersection number $1$ between neighbors, $-1$ in the reversed order, and $0$ otherwise. This skew tridiagonal matrix has determinant $1$, so the cycles form an integral homology basis and $\gamma$ generates $H_1(A,\Z)$ over $\OK$.
+
+Write $\Delta_\Omega=(\Omega_1\Omega_2\Omega_3)^2$. The identity $\bigl((\zeta-1)(\zeta^2-1)(\zeta^3-1)\bigr)^2=-7\zeta^6$ gives
+\begin{equation}\label{eq:B}
+\Delta_\Omega=-448\,\zeta^6\,(I_0I_1I_2)^2,\qquad \Bn:=\frac{L(2)}{\Delta_\Omega}=-\frac{49\,\zeta}{64}\,q.
+\end{equation}
+
+Let $X$ be a second copy of $A$ with the same CM action. Use $[2]\colon X\to A$ to define reference differentials
+\begin{equation}\label{eq:theta}
+\theta_j=[2]^*\omega_j=2\omega_j.
+\end{equation}
+In these coordinates the period lattice of $X$ is $\Lat=2\OK\Omega$, where $\Omega=(\Omega_1,\Omega_2,\Omega_3)$ and $a\Omega:=(\sigma_3(a)\Omega_1,\sigma_6(a)\Omega_2,\sigma_2(a)\Omega_3)$. The point represented by $\Omega$ is the $K$-rational $2$-torsion section
+\[
+\xi=[(\zeta,0)-(1,0)]\in X[2](K).
+\]
+For a nonzero ideal $\mathfrak c\subset\OK$ put $X[\mathfrak c]=\bigcap_{a\in\mathfrak c}\ker\iota(a)$.
+
+\subsection{An oriented congruence-unit group}
+Set
+\begin{equation}\label{eq:Delta}
+U_2=\{u\in\OK^\times:\ u\equiv1\pmod 2\},\qquad \Delta=U_2^2.
+\end{equation}
+The torsion subgroup of $U_2$ is $\{\pm1\}$, so $\Delta\cong\Z^2$ and $[U_2:\Delta]=8$. The group $\Delta$ fixes $\xi$ and is Galois stable. Complex conjugation acts trivially on $\Delta$, since $\bar u/u\in\Delta\cap\mu_{14}=\{1\}$. The remaining Galois action factors through a cyclic group of order $3$, so it has determinant $+1$ on $\Delta$. Hence an orientation of $\Delta$ is Galois invariant.
+
+%=====================================================================
+\section{An integral coefficient of the Eisenstein--Kronecker class}\label{sec:EK}
+%=====================================================================
+
+For a free module $V$, $\TSym^a(V)$ denotes the $S_a$-invariant tensors in $V^{\otimes a}$ with the orbit-sum basis. Thus $v_1v_2v_3$ is the sum of its six distinct ordered tensors, while $v^{[a]}=v^{\otimes a}$.
+
+Let $R$ be a discrete valuation ring in a number field containing $K$, with fraction field embedded in $\C$, over which $X$ has good reduction $X_R$. Endomorphisms extend to $X_R$. Put
+\[
+V_R=H^0(X_R,\Omega^1_{X_R/R}),\qquad M_R=\TSym^3(V_R)\otimes{\textstyle\bigwedge^3}V_R .
+\]
+The group $\Delta$ acts by pullback through $\iota$.
+
+\begin{lemma}[Degree-zero specialization]\label{lem:deg0}
+Let $D$ be the kernel of an isogeny whose degree is invertible in $R$, or that kernel with its zero section removed, and assume $D$ is $\Delta$-stable. Let $F\in H^0(D,\mathcal O_D)$ be $\Delta$-invariant of trace zero for the finite \'etale $R$-algebra $H^0(D,\mathcal O_D)$. If $\xi$ is disjoint from $D$, there is a functorial class
+\begin{equation}\label{eq:zR}
+z_R(F,\xi)\in H^2(\Delta,M_R).
+\end{equation}
+Over $\mathrm{Frac}(R)$ it agrees with the zeroth torsion moment of the third derivative of the Eisenstein--Kronecker class of~\cite{KS}.
+\end{lemma}
+
+\begin{proof}
+Let $X_R^\vee$ be the dual abelian scheme and $\mathcal P$ the Poincar\'e bundle on $X_R\times X_R^\vee$, rigidified along both zero sections. Let $\widehat{\mathcal P}$ be its completion along $X_R\times\{0\}$. The universal vector extension $X_R^{\natural}$ of $X_R^\vee$ parametrizes algebraically trivial line bundles with integrable connection; write $\widehat{\mathcal P}^\natural$ for the completed pullback and $\nabla$ for its connection in the $X_R$-direction.
+
+By~\cite[\S2.3, Thm.~2.20]{KS} there is an equivariant Eisenstein--Kronecker class $\mathrm{EK}_\Delta(F)$ of degree $2$ on $X_R\setminus D$, characterized by its residue $F$. Apply the third iterated connection~\cite[Def.~2.23]{KS}. The coefficient sheaf becomes $\TSym^3(\Omega^1)\otimes\widehat{\mathcal P}^\natural\otimes\Omega^3$, where $\Omega^i=\bigwedge^i\Omega^1_{X_R/R}$.
+
+The rigidification identifies the degree-zero quotient $\mathcal P^{\natural(0)}$ with $\mathcal O_{X_R}$, so at every section there is a canonical map $\epsilon_\xi\colon\xi^*\widehat{\mathcal P}^\natural\to R$. Pull back by $\xi$ and apply $\epsilon_\xi$ after the three derivatives. All maps are integral and $\Delta$-equivariant. Since $\mathrm{Spec}\,R$ is affine, equivariant coherent cohomology becomes group cohomology, which gives \eqref{eq:zR}.
+
+Over the fraction field, $[2]$ kills $\xi$ and is \'etale. The torsion splitting of~\cite[Cor.~2.9]{KS} is a composite of two isogeny-functoriality maps, one inverted. Both induce the identity in degree zero by rigidification. Hence the degree-zero component of the moment map is $\epsilon_\xi$, and that component is the zeroth torsion moment. Applying it to the differentiated class proves the comparison.
+\end{proof}
+
+\begin{remark}\label{rem:why}
+The argument uses neither a CM decomposition of the integral lattice nor the invertibility of the order of $\xi$. This is why it gives integral information at $2$ (the order of $\xi$) and at $7$ (the discriminant prime), where we do not appeal to the general integrality theorem of~\cite{KS}. %% AUTHOR: state precisely which hypothesis of the integrality theorem in [KS] fails at 2 and 7 here.
+\end{remark}
+
+Let $\ell_\theta\colon M_{\mathrm{Frac}R}\to\mathrm{Frac}R$ be the coefficient of $(\theta_1\theta_2\theta_3)\otimes(\theta_1\wedge\theta_2\wedge\theta_3)$. Its weight on $u\in\Delta$ is $P_\Sigma(u)^2=1$, so $\ell_\theta$ is $\Delta$-invariant. For $\Delta=\langle g_1,g_2\rangle$ the top Koszul cohomology is $H^2(\Delta,M_R)=M_R/\bigl((g_1-1)M_R+(g_2-1)M_R\bigr)$. With $(g_1,g_2)$ positively oriented, let $[\Delta]\in H_2(\Delta,\Z)$ be the fundamental class. Define
+\begin{equation}\label{eq:Ctheta}
+C_\theta(F,\xi):=\ell_\theta\bigl(z_R(F,\xi)\cap[\Delta]\bigr)\in\ell_\theta(M_R),
+\end{equation}
+where the right-hand side may be a fractional ideal.
+
+For an ideal $\mathfrak c$ prime to $2$ define
+\begin{equation}\label{eq:smooth}
+f_{\mathfrak c}=\Nm\mathfrak c\cdot\mathbf 1_0-\mathbf 1_{X[\mathfrak c]},\qquad A_{\mathfrak c}=\Nm\mathfrak c-\chi(\mathfrak c)^{-1},\qquad \chi(\mathfrak a)=\frac{\Psi(\mathfrak a)}{(\Nm\mathfrak a)^2}.
+\end{equation}
+Here $\mathbf 1_Z$ is the indicator of an open-and-closed subscheme $Z$ of a common finite \'etale kernel, and $L_K(\chi,s)=L_K(\Psi,s+2)$. Since $|X[\mathfrak c]|=\Nm\mathfrak c$, $f_{\mathfrak c}$ has trace zero. For $F=\sum_i n_if_{\mathfrak c_i}$ with $n_i\in\Z$, put $A_F=\sum_in_iA_{\mathfrak c_i}$. By the localization sequence of~\cite[\S2.3]{KS}, the class depends only on the residue, so extending functions by zero to a common kernel does not change it.
+
+\begin{proposition}[Coefficient comparison]\label{prop:compare}
+With the orientation compatible with the analytic conventions of~\cite{KS}, whenever the integral construction is defined,
+\begin{equation}\label{eq:compare}
+C_\theta(F,\xi)=-8\,A_F\,\Bn.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Choose $\mathfrak c$ divisible by all $\mathfrak c_i$ in $F$. For $t\in\Q\otimes\Lat$ and $\Re(s)>0$ put
+\[
+E(t,s;\Lat,\Delta)=\sideset{}{'}\sum_{w\in\Delta\backslash(\Lat+\Delta t)}\frac{1}{(w_1w_2w_3)^2\,(|w_1|^2|w_2|^2|w_3|^2)^{s}},
+\]
+where $\Delta$ acts on $\C^3$ through $(\sigma_3,\sigma_6,\sigma_2)$ and the prime omits $w=0$. Take the moment multi-index $\beta=(0,0,0)$ and derivative multi-index $\alpha=(1,1,1)$ in~\cite[Prop.~3.23]{KS} and integrate using~\cite[Lemma~3.26]{KS}. In our orbit-sum basis the coefficient is
+\begin{equation}\label{eq:coef}
+-\sum_{t\in\Delta\backslash X[\mathfrak c]}F(-t)\,E(\xi+t,0;\Lat,\Delta).
+\end{equation}
+The sign is $(-1)^{3(3-1)/2}=-1$ and the factorial product is $(1!)^3=1$. This is a computation in $\TSym^3(V_\C)\otimes\det V_\C$ itself, so no divided-power or shuffle factor enters.
+
+The primary generators of ideals prime to $2$ form $U_2\backslash(1+2\OK)$, and for primary $a$ we have $\chi((a))=\prod_{b\in\Sigma}\sigma_b(a)^{-2}$. The continued Eisenstein series at $\xi$ is therefore $8L_K(\chi,0)/\Delta_\Omega=8\Bn$, where $[U_2:\Delta]=8$ counts the representatives of each ideal in the $\Delta$-quotient. Removing periods produces a norm factor to the power $-s$, which equals $1$ at $s=0$.
+
+For a primary generator $a$ of $\mathfrak c$, summing torsion translates replaces $2\OK$ by $2\mathfrak c^{-1}$, and multiplication by $a$ identifies the shifted lattice with $1+2\OK$. At $s=0$ the weight is multiplied by $\prod_{b\in\Sigma}\sigma_b(a)^2=\chi(\mathfrak c)^{-1}$. Grouping into $\Delta$-orbits gives exactly \eqref{eq:coef}, so smoothing contributes $A_{\mathfrak c}$ and the sign gives \eqref{eq:compare}. These identities hold first for $\Re(s)$ large and then by continuation; linearity treats general $F$. Lemma~\ref{lem:deg0} identifies the analytic value with the generic value of the integral class.
+\end{proof}
+
+%=====================================================================
+\section{Galois descent and the rational denominator}\label{sec:descent}
+%=====================================================================
+
+\subsection{Rationality}
+\begin{proposition}\label{prop:rational}
+The number $q$ of \eqref{eq:q} is rational.
+\end{proposition}
+
+\begin{proof}
+The curve, marked point, differentials, endomorphisms, and smoothing functions are defined over $K$, so $C_\theta(f_{\mathfrak c},\xi)\in K$. By \eqref{eq:A} below, $3A_{\mathfrak c_{29}}-2A_{\mathfrak c_{43}}\ne0$, so some $A_{\mathfrak c}\ne0$ and Proposition~\ref{prop:compare} gives $\Bn\in K$.
+
+For $1\le r\le 6$ put $u_r=1+\zeta+\dots+\zeta^{r-1}$ and $v_r=\sigma_5(u_r)$, where $5\equiv3^{-1}\pmod7$. Telescoping branch-point differences gives
+\[
+\sigma_r(\xi)=[(\zeta^r,0)-(1,0)]=\iota(v_r)\,\xi.
+\]
+Since $u_r/\bar u_r=\zeta^{r-1}$ and $\Nm u_r=1$,
+\[
+P_S(u_r)^2=\zeta^{3(r-1)},\qquad \nu(u_r)=\zeta^{4(r-1)},\qquad \nu(v_r)=\zeta^{1-r}.
+\]
+The $\theta_j$, $\ell_\theta$, and the orientation of $\Delta$ are Galois invariant, so functoriality gives
+\[
+\sigma_r C_\theta(f_{\mathfrak c},\xi)=C_\theta(f_{\sigma_r\mathfrak c},\iota(v_r)\xi).
+\]
+The shifted coset on the right is $v_r+2\OK$. Multiplication by $v_r$ changes the Eisenstein value by $\bigl(\prod_{a\in\Sigma}\sigma_a(v_r)^2\bigr)^{-1}=\nu(v_r)^{-1}$, using unit invariance and $\Nm v_r=1$. By \eqref{eq:abs}, $\sigma_rA_{\mathfrak c}=A_{\sigma_r\mathfrak c}$. Comparing gives $\sigma_r(\Bn)=\zeta^{r-1}\Bn$. Hence $\Bn/\zeta\in\Q$, and \eqref{eq:B} gives $q\in\Q$.
+\end{proof}
+
+\subsection{A common smoothing function at two and seven}
+Let $\mathfrak c_{29}=(a_{29})$ and $\mathfrak c_{43}=(a_{43})$ with
+\[
+a_{29}=\zeta^4-\zeta^3-\zeta^2-\zeta-1,\qquad a_{43}=\zeta^5-\zeta^4-\zeta^3-\zeta^2-\zeta-1,
+\]
+of norms $29$ and $43$. Set $F_*=3f_{\mathfrak c_{29}}-2f_{\mathfrak c_{43}}$ and $A_*=3A_{\mathfrak c_{29}}-2A_{\mathfrak c_{43}}$. Since $3\cdot28-2\cdot42=0$, $F_*$ vanishes at $0$ and extends by zero to $D=X[\mathfrak c_{29}\mathfrak c_{43}]\setminus\{0\}$. This is an allowed punctured \'etale kernel at both $2$ and $7$. Moreover $\xi$ is disjoint from $D$ even on special fibres, because $2$-torsion meets odd-order torsion only in the zero section, which has been removed. So Lemma~\ref{lem:deg0} applies even if $\xi$ specializes to $0$ at $2$. Exact arithmetic in $\Z[\zeta]$ gives
+\begin{equation}\label{eq:A}
+A_*=-4U,\qquad U=15\zeta^5+21\zeta^4+17\zeta^3+27\zeta^2+6\zeta+26.
+\end{equation}
+The reductions of $U$ modulo the two cubic factors at $2$ are $X^2+X$ and $X^2+1$, both nonzero, so $v_2(A_*)=2$ at both primes above $2$. Let $\lambda=1-\zeta$ and normalize $v_\lambda(\lambda)=1$. Then
+\[
+U=112-270\lambda+354\lambda^2-251\lambda^3+96\lambda^4-15\lambda^5,
+\]
+and since $v_\lambda(7)=6$ the unique term of least valuation is $-270\lambda$, so $v_\lambda(A_*)=1$.
+
+\subsection{The differential lattice at two}
+Adjoin $\eta$ with $\eta^7=4$. The substitution $x=\eta u$, $y=1+2v$ gives $v^2+v=-u^7$, whose smooth proper completion has good reduction at $2$. On the affine chart the $v$-derivative is $1$. At infinity, with $s=1/u$ and $t=v/u^4$, one gets $t^2+s^4t=-s$, whose $s$-derivative at $(0,0)$ is $1$. An integral differential basis is
+\[
+e'_j=\frac{u^{j-1}\,du}{2v+1},\qquad \omega_j=\eta^{j}e'_j,\qquad \theta_j=2\eta^{j}e'_j\quad(1\le j\le3).
+\]
+The tensor and determinant factors give
+\[
+\ell_\theta(M_R)=2^{-6}\eta^{-12}R,\qquad v_2\bigl(C_\theta(F_*,\xi)\bigr)\ge-6-\tfrac{24}{7}=-\tfrac{66}{7}.
+\]
+On the other hand \eqref{eq:B}, \eqref{eq:compare}, and \eqref{eq:A} give $v_2(C_\theta(F_*,\xi))=3+2+(v_2(q)-6)=v_2(q)-1$. Since $q\in\Q$,
+\begin{equation}\label{eq:v2}
+v_2(q)\ge\lceil-59/7\rceil=-8.
+\end{equation}
+
+\subsection{The differential lattice at seven}
+Adjoin $T$ with $T^2=\lambda$ and put $x=1+\lambda u$, $y=\lambda^3Tv$. The resulting equation is integral and reduces to $v^2=u-u^7$, since $7/\lambda^6\equiv-1\pmod\lambda$. Its odd-degree smooth completion has genus $3$. The integral differential basis
+\[
+e_0=T^5\omega_1,\qquad e_1=T^3(\omega_2-\omega_1),\qquad e_2=T(\omega_3-2\omega_2+\omega_1)
+\]
+reduces to $du/v,\ u\,du/v,\ u^2du/v$. Including the factor $e_0\wedge e_1\wedge e_2$, the nonzero values of $\ell_\omega$ (defined like $\ell_\theta$ with $\omega_j$ in place of $\theta_j$) on the ten cubic orbit tensors are:
+\begin{center}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Tensor & $e_0e_1e_2$ & $e_0e_2^{[2]}$ & $e_1^{[2]}e_2$ & $e_1e_2^{[2]}$ & $e_2^{[3]}$\\
+\midrule
+Coefficient & $T^{18}$ & $-2T^{16}$ & $-T^{16}$ & $3T^{14}$ & $-2T^{12}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Thus $\ell_\omega(M_R)=T^{12}R$, and since $2$ is a unit here, $\ell_\theta(M_R)=T^{12}R$ as well. Consequently $6\le v_\lambda(C_\theta(F_*,\xi))=1+12+6v_7(q)$, so
+\begin{equation}\label{eq:v7}
+v_7(q)\ge-1.
+\end{equation}
+
+\subsection{The remaining primes}
+Let $p\ne2,7$ and $f=\mathrm{ord}_7(p)$. In $\OK/(p)$ take a primitive element $z\in\F_{p^f}^\times$ in one factor and $1$ in the others, and by the Chinese remainder theorem lift it to $a\equiv1\pmod 2$. At every prime above $p$ the ratio $P_S(a)/P_\Sigma(a)$ has residue $z^E$ with $E=\sum_{j=0}^{f-1}\epsilon_jp^j$ and $\epsilon_j\in\{\pm1\}$. Since $p\ge3$, $0<|E|\le(p^f-1)/(p-1)<p^f-1$, so $P_S(a)/P_\Sigma(a)-1$ is a $p$-adic unit. For $\mathfrak c=(a)$ we have $A_{\mathfrak c}=P_\Sigma(a)^2\bigl(P_S(a)/P_\Sigma(a)-1\bigr)$, a local unit. The curve has good reduction at $p$, $\theta$ is an integral basis, and $\xi$ is disjoint from $X[\mathfrak c]$. By \eqref{eq:Ctheta} and \eqref{eq:compare}, $\Bn$ and hence $q$ are integral at $p$. Combining with \eqref{eq:v2} and \eqref{eq:v7}:
+
+\begin{proposition}\label{prop:denominator}
+$q\in\dfrac{1}{1792}\Z$, where $1792=2^8\cdot7$.
+\end{proposition}
+
+%=====================================================================
+\section{The functional equation}\label{sec:FE}
+%=====================================================================
+
+The completed $L$-function of a Hecke character has a functional equation by Hecke's theorem (see, e.g.,~\cite[Ch.~VII]{Neukirch}). We need the explicit constants, including the root number, so we derive them directly. Let $\Cond=64\,|D_K|=2^6\cdot7^5$ and let $d=\Phi_7'(\zeta)$, a generator of the different. For $y=(y_a)_{a\in S}\in\R^3_{>0}$ put $Y=\prod_ay_a$ and
+\[
+\Theta(y)=\sum_{\alpha\in\OK}\nu(\alpha)P_S(\alpha)^2\exp\Bigl(-2\pi\sum_{a\in S}y_a|\sigma_a(\alpha)|^2\Bigr).
+\]
+Finite Fourier inversion modulo $2$ reads
+\begin{equation}\label{eq:fourier}
+\nu(\alpha)=\frac18\sum_{b\in(\OK/(2))^\times}\nu(b)^{-1}(-1)^{\Tr(\alpha b)};
+\end{equation}
+the two seven-term Gauss sums over $\F_8$ have product $8$, and \eqref{eq:fourier} is also checked on all $64$ residues in the certificate. For the trace pairing $2\Re(z\bar\beta)$, the Fourier transform of $z^2e^{-2\pi y|z|^2}$ is $-\beta^2e^{-2\pi|\beta|^2/y}/(2y^3)$. The covolume of $\OK$ in $\C^3$ is $\sqrt{|D_K|}/8$. Poisson summation for each additive twist gives the shifted dual lattice $d^{-1}\OK-b/2$ with scalar $-|D_K|^{-1/2}Y^{-3}$. Writing its elements as $\beta=\gamma/(2d)$ with $\gamma\equiv-db\pmod2$ and combining the $49$ nonzero residue cosets gives the scalar $-\nu(d)/(512\sqrt{|D_K|}P_S(d)^2)=\Cond^{-3/2}$, using $(d)=(1-\zeta)^5$ and $\Psi((d))=(-7)^5$. Hence
+\begin{equation}\label{eq:theta-inv}
+\Theta(y)=\Cond^{-3/2}Y^{-3}\Theta(y'),\qquad y'_a=\frac{1}{4|\sigma_a(d)|^2y_a},\quad Y'=\frac{1}{\Cond Y}.
+\end{equation}
+Let $\Fund$ be a fundamental domain for $y_a\mapsto|\sigma_a(u)|^2y_a$, $u\in\OK^\times/\mu_{14}$. Unfolding gives, for $\Re(s)>2$,
+\[
+I(s)=\int_\Fund\Theta(y)\,Y^s\prod_a\frac{dy_a}{y_a}=14\,\frac{\Gamma(s)^3}{(2\pi)^{3s}}\,L(s).
+\]
+The theta function decays exponentially at both ends of the radial variable, by \eqref{eq:theta-inv}, so $I$ is entire and $I(s)=\Cond^{3/2-s}I(3-s)$. Thus
+\begin{equation}\label{eq:FE}
+\Lambda(s)=\Lambda(3-s),\qquad \Lambda(s)=Q^s\,\Gamma(s)^3L(s),\qquad Q=\frac{7^{5/2}}{\pi^3},
+\end{equation}
+and the root number is $+1$. Section~\ref{sec:cert} checks \eqref{eq:FE} independently by numerical computation (Remark~\ref{rem:indep}).
+
+%=====================================================================
+\section{The certificate and the proof of Theorem~\ref{thm:main}}\label{sec:cert}
+%=====================================================================
+
+Write $L(s)=\sum_{n\ge1}a_nn^{-s}$ for $\Re(s)>2$. Galois covariance gives $a_n\in\Z$, and \eqref{eq:abs} gives
+\begin{equation}\label{eq:majorant}
+|a_n|\le n\,d_6(n),
+\end{equation}
+where $d_6(n)$ is the number of ordered sextuples of positive integers with product $n$. Writing $\zeta_\R$ for the Riemann zeta function, $\sum_{n\ge1} d_6(n)n^{-s}=\zeta_\R(s)^6$ for $\Re(s)>1$.
+
+\subsection{Exact Euler input}
+Let $p\ne2,7$ with $f=\mathrm{ord}_7(p)$ and $p^{f}\le10^4$. The certificate exhibits $\alpha=\sum_{j=0}^5a_j\zeta^j\in\OK$ and verifies $|\Nm\alpha|=p^{f}$ in exact integer arithmetic. Every prime above $p$ has norm $p^f$, so $(\alpha)$ is a prime ideal above $p$; how $\alpha$ was found plays no role in the proof. (Candidates come from lattice reduction of $(p,\zeta-r)$ when $f=1$, from $\Z[\zeta+\zeta^{-1}]$ when $f=2$, from $\Z[(1+\sqrt{-7})/2]$ when $f=3$, and $\alpha=p$ when $f=6$.) Applying $\sigma_r$ for $r$ in a set of coset representatives of the decomposition group gives all primes above $p$. Altogether $1234$ prime ideals are verified, and the certificate evaluates \eqref{eq:def} on each of them exactly in $\Z[\zeta]$. With $f=\mathrm{ord}_7(p)$, the inverse local factor is a polynomial of degree $6/f$ in $p^{-fs}$. Its power sums are traces of powers of $\Psi((\alpha))$ divided by $f$, and Newton's identities give its coefficients. Together with the factor $1$ at $2$ and \eqref{eq:euler7}, this determines $a_n$ for $n\le10^4$ in exact integer arithmetic. The certificate checks that each local coefficient is a rational integer and that \eqref{eq:majorant} holds; $283$ of these coefficients are nonzero.
+
+\subsection{An approximate functional equation with explicit tails}
+For $x>0$ and $r\in\{1,2\}$ let
+\[
+H_r(x)=\frac{1}{2\pi i}\int_{(c)}\frac{\Gamma(r+z)^3}{z}\,x^{-z}\,dz\qquad(c>0).
+\]
+Shift $\frac{1}{2\pi i}\int\Lambda(2+z)\,dz/z$ from $\Re z=c$ to $\Re z=-c'$ with $c'>1$, picking up the residue $\Lambda(2)$ at $z=0$, and apply \eqref{eq:FE}. This gives (cf.~\cite{Dokchitser})
+\begin{equation}\label{eq:AFE}
+L(2)=\sum_{n\ge1}a_n\left(\frac{H_2(n/Q)}{n^2}+\frac{H_1(n/Q)}{Qn}\right).
+\end{equation}
+Let $\gamma_E$ be Euler's constant, $h_m=\sum_{j\le m}j^{-1}$, $h_m^{(2)}=\sum_{j\le m}j^{-2}$ ($h_0=h_0^{(2)}=0$), and $A_m=3(h_m-\gamma_E)-\log x$. Expanding at the triple poles $z=-r-m$,
+\begin{equation}\label{eq:Hseries}
+H_r(x)=1+\sum_{m\ge0}\frac{(-1)^{m+1}x^{m+r}}{(m!)^3(m+r)}\left\{\frac{A_m^2}{2}+\frac{A_m}{m+r}+\frac{1}{(m+r)^2}+\frac32\bigl(\zeta_\R(2)+h_m^{(2)}\bigr)\right\}.
+\end{equation}
+For $1/5<x<2500$, truncation at $m=89$ has error less than $10^{-90}$. For $m\ge90$, $|A_m|\le3\log m+14<m/2$, so the braces are less than $m^2$ in absolute value. The majorant terms have ratio at most $2500/(m^2(m+1))<1/290$. Since $90!>10^{138}$ and $2500^{92}<10^{313}$, the first majorant term is less than $9\cdot10^{-100}$ and the geometric tail is less than $10^{-98}$. With \eqref{eq:majorant} and $d_6(n)\le n^5$, the total kernel error in the finite sum is less than $2\cdot10^{-62}$.
+
+For the outer tail, Mellin inversion gives
+\[
+H_r(x)=\int_{\substack{u,v,w>0\\ uvw>x}}e^{-u-v-w}(uvw)^{r}\,\frac{du\,dv\,dw}{uvw},
+\]
+so $0\le H_r(x)\le x^{-t}\Gamma(r+t)^3$ for $t>0$. Using \eqref{eq:majorant} and bounding the remaining Dirichlet series by $\zeta_\R(2)^6$, for $t>2$ the tail of \eqref{eq:AFE} beyond $n=N$ is at most
+\begin{equation}\label{eq:tail}
+\zeta_\R(2)^6\left(\frac{Q^t\Gamma(t+2)^3}{N^{t-1}}+\frac{Q^{t-1}\Gamma(t+1)^3}{N^{t-2}}\right).
+\end{equation}
+For $N=10^4$ and $t=12$ the certificate bounds this by $2.86\cdot10^{-6}$.
+
+\subsection{Interval arithmetic and the proof}
+Every real number in the computation is enclosed in an interval whose endpoints are binary fixed-point numbers with $320$ fractional bits. Each operation rounds the lower endpoint down and the upper endpoint up, and no floating-point arithmetic is used. Constants are initialized from rational series with explicit remainders or from integer-root inequalities (Appendix~\ref{app:repro}). The kernels $H_r(n/Q)$ are evaluated from \eqref{eq:Hseries} with $m\le89$ plus the truncation bound above, for each of the $283$ indices $n\le10^4$ with $a_n\ne0$; all of them satisfy $1/5<n/Q<2500$. The outward-rounded evaluation gives $L(2)\in[0.982366,\,0.982373]$ and $1792\,q\in[31.99990,\,32.00010]$; in particular
+\begin{equation}\label{eq:certified}
+|1792\,q-32|<\frac{1}{100}.
+\end{equation}
+The certificate runs in about ten seconds.
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+By Proposition~\ref{prop:denominator}, $1792q\in\Z$, and by \eqref{eq:certified} it equals $32$. Hence $q=1/56$, and \eqref{eq:q} together with $I_j=\frac17B(\frac{j+1}{7},\frac12)$ gives \eqref{eq:main}. Since $\Lambda(1)=\Lambda(2)$ and $\Gamma(1)=\Gamma(2)=1$, we get $L(1)=Q\,L(2)$, which is \eqref{eq:main1}.
+\end{proof}
+
+\begin{remark}[Independent numerical checks]\label{rem:indep}
+We also checked the result with an independent double-precision computation (\texttt{checks/independent\_float\_check.py} in the repository) that shares no code with the certificate. Prime generators were found by lattice reduction for the trace form, and Frobenius classes of degree $2$ and $3$ were handled through $K^+$ and $\Q(\sqrt{-7})$. We computed $a_n$ for $n\le2\cdot10^4$ and evaluated $L(2)$ by the approximate functional equation with an auxiliary splitting parameter $A$, i.e.\ with $H_2(n/(QA))$ and $H_1(nA/Q)$ in place of the kernels in \eqref{eq:AFE}. For $A=1$ and $A=5/4$ the two values agree to $14$ digits, which independently confirms \eqref{eq:FE} and the root number. Both give $q=0.01785714285714\ldots=1/56$. These checks are not part of the proof.
+\end{remark}
+
+%=====================================================================
+\section{Geometric interpretation}\label{sec:geom}
+%=====================================================================
+
+Use the action $\zeta\mapsto\rho$ on $C$, of holomorphic type $\Phi=\{1,2,3\}$. For a prime $\ell$ let $V=H^1_{\mathrm{\acute et}}(C_{\bar\Q},\Q_\ell)$, and define
+\[
+e_{\mathrm{diag}}=\frac17\sum_{a=0}^{6}(\rho^a)_*\otimes(\rho^{-a})_*,\qquad W_2=\mathrm{im}\bigl(e_{\mathrm{diag}}\colon V\otimes V\to V\otimes V\bigr).
+\]
+Galois conjugation permutes the seven summands, so $e_{\mathrm{diag}}$ is a rational Galois-equivariant idempotent. Over a splitting field it selects the tensor squares of the six $\rho$-eigenlines, so $\dim W_2=6$. We use the Euler factors $\det(1-\mathrm{Frob}_p\,p^{-s}\mid W_2^{I_p})^{-1}$ at $p\ne\ell$ (geometric Frobenius), and an auxiliary $\ell$ at $p=\ell$.
+
+\begin{proposition}\label{prop:geom}
+$L(W_2,s)=L_K(\Psi,s)$, including the Euler factors at $2$ and $7$.
+\end{proposition}
+
+\begin{proof}
+By the main theorem of CM~\cite[Thms.~13.1--13.2]{Milne}, an eigenline of $V|_{G_K}$ corresponds to a Hecke character $\Xi$. The tangent space is $K^3$ with the endomorphism field acting through $\sigma_1,\sigma_2,\sigma_3$. Over that field, multiplication by $a\in K$ has determinant $\sigma_1^{-1}(a)\sigma_2^{-1}(a)\sigma_3^{-1}(a)=P_S(a)$, since $\Phi^{-1}=\{1,4,5\}$. Choosing the corresponding eigenline, $\Xi$ has type $S$ and $|\Xi(\mathfrak p)|=\Nm\mathfrak p^{1/2}$ at good primes.
+
+Away from $2$ and $7$ the curve has good reduction. At $2$, the good model above is defined over $K(\eta)$, $\eta^7=4$, which is locally tame cyclic of degree $7$. So wild inertia acts trivially and every rank-one constituent, including its square, has conductor exponent at most one. At $7$, the good model is defined over the tame quadratic extension $K(T)$, $T^2=1-\zeta$. Its nontrivial inertia element fixes $u$ and sends $v\mapsto-v$; this is the hyperelliptic involution, which acts by $-1$ on $H^1$. Hence $\Xi^2$ is unramified at $7$ and the conductor of $\Xi^2$ divides $(2)$. Both $\Xi^2$ and $\Psi$ have type $2S$ and conductor dividing $(2)$, so their quotient is a ray class character modulo $(2)$, hence trivial. Thus $\Xi^2=\Psi$. The type $2S$ has trivial Galois stabilizer, so the six conjugate eigenlines are permuted transitively and $W_2=\mathrm{Ind}_{G_K}^{G_\Q}\Psi$. Compatibility of induction with local factors gives the claim.
+\end{proof}
+
+\begin{remark}
+The point counts of $y^2=1-x^7$ over finite fields are given by Jacobi sums $J(\varepsilon,\chi^a)$, with $\varepsilon$ quadratic and $\chi$ of order $7$. So $\Xi$ is the Jacobi-sum Hecke character of Weil~\cite{Weil} attached to this pair (cf.~\cite{GrossRohrlich}), and $\Psi$ is its square. This places Theorem~\ref{thm:main} in the setting of Lichtenbaum's $\Gamma$-hypothesis~\cite{Lichtenbaum} and of the work of Otsubo~\cite{OtsuboJacobi} and Asakura--Otsubo~\cite{AsakuraOtsubo} on $L$-values of Fermat-type motives and hypergeometric functions.
+\end{remark}
+
+%=====================================================================
+\section{Hypergeometric form and the depleted value}\label{sec:hyp}
+%=====================================================================
+
+For $j=1,2,3$ let $\mathcal H_j={}_3F_2\!\left(\tfrac12,\tfrac j7,1-\tfrac j7;1,1;1\right)$. For $0<a<1$, Clausen's formula and Gauss's summation give~\cite[15.4.20, 16.12.2]{DLMF}
+\[
+{}_3F_2\!\left(\tfrac12,a,1-a;1,1;1\right)={}_2F_1\!\left(\tfrac a2,\tfrac{1-a}2;1;1\right)^2=\frac{\pi}{\Gamma(1-a/2)^2\,\Gamma((1+a)/2)^2}.
+\]
+These series converge at $1$, since the parametric excess is $1/2$. Using $\prod_{j=1}^6\Gamma(j/7)=(2\pi)^3/\sqrt7$ we obtain
+\[
+\mathcal H_1\mathcal H_2\mathcal H_3=\frac{7}{64\pi^3}\prod_{j=1}^{3}\left(\frac{\Gamma(j/7)}{\Gamma(1/2+j/7)}\right)^2,
+\]
+and Theorem~\ref{thm:main} with Proposition~\ref{prop:geom} gives Corollary~\ref{cor:variants}(2). Part (1) follows from \eqref{eq:euler7}, since $L_7(2)^{-1}=8/7$.
+
+\begin{remark}[Outlook]
+The method needs four inputs: a class number one (or controlled ray class) situation, explicit integral models over tame extensions at the bad primes, a smoothing ideal with small valuation at those primes, and a certified numerical value. The same scheme should apply to the analogous characters for $y^2=1-x^p$ with $p=5,11,13$, and to other critical values. We leave these cases to future work. %% AUTHOR: adding even one further case (e.g. p = 5 or 11), or a table of numerically identified rational factors, would substantially strengthen the paper.
+\end{remark}
+
+\appendix
+\section{Reproducibility of the certificate}\label{app:repro}
+
+The certificate \texttt{certificate/certify.py} generates the complete prime list and verifies every prime-ideal generator by an exact norm. In exact arithmetic in $\Z[\zeta]$ it also verifies the unit identities of Section~\ref{sec:char}, the Galois covariance of $\nu$ on all $49$ residue units, the Fourier identity \eqref{eq:fourier} on all $64$ residues, the period identity in \eqref{eq:B}, the Galois multipliers of Proposition~\ref{prop:rational}, the norms of $a_{29},a_{43}$, the identity \eqref{eq:A} with both valuation statements for $U$, and the ten tensor coefficients of Section~\ref{sec:descent}. These checks do not replace the cohomological arguments of Sections~\ref{sec:EK}--\ref{sec:descent}.
+
+\emph{Periods.} Put $a=(j+1)/7$, $c_k=\binom{2k}{k}4^{-k}$ and $d_k=(1-a)_k/k!$. Splitting the beta integral at $1/2$ and expanding the two binomial series gives
+\[
+I_j=2^{-a}\sum_{k\ge0}\frac{c_k2^{-k}}{7k+j+1}+\frac{\sqrt2}{7}\sum_{k\ge0}\frac{d_k2^{-k}}{2k+1}.
+\]
+Both coefficient sequences lie in $(0,1]$, so after $M$ terms the two positive tails are at most $2^{1-M}/(7M)$ and $\frac{\sqrt2}{7}\,2^{1-M}/(2M+1)$; $M=200$ is used, and the partial sums are computed exactly as rationals. Integer $7$th-root and square-root inequalities enclose $2^{-(j+1)/7}$ and $\sqrt2$.
+
+\emph{Other constants.} The number $\pi$ is enclosed by Machin's formula $\pi=16\arctan(1/5)-4\arctan(1/239)$ with alternating-series remainders. Logarithms use $\log y=2\sum_{k\ge0}t^{2k+1}/(2k+1)$, $t=(y-1)/(y+1)$, $1\le y\le2$, after checked range reduction, with tail at most $2t^{2M+1}/((2M+1)(1-t^2))$. Euler's constant is enclosed by
+\[
+\gamma_E=h_n-\log n-\frac{1}{2n}+\sum_{k=1}^{m}\frac{B_{2k}}{2k\,n^{2k}}+R,\qquad |R|\le\frac{|B_{2m+2}|}{(2m+2)\,n^{2m+2}},
+\]
+with $n=1024$, $m=24$ (see~\cite[\S5.11]{DLMF}). Also $\zeta_\R(2)=\pi^2/6$, and $\sqrt7$ is bounded by integer-square inequalities. Every operation in the finite sum and in \eqref{eq:tail} is rounded outward. The recorded output is \texttt{certificate/certificate\_output.txt}.
+
+\emph{Availability.} The certificate, its recorded output, the independent floating-point check, and the \LaTeX{} source are available at \url{https://github.com/ramanujamath/exact-critical-value-Q-zeta7}. The certificate uses only the Python standard library (version $3.8$ or later). %% AUTHOR: after a Zenodo release, add the DOI here.
+
+\section*{Declarations}
+\noindent\textbf{Funding.} No external funding was received for this work.\\
+\textbf{Competing interests.} The author declares no competing interests.\\
+\textbf{Data and code availability.} See Appendix~\ref{app:repro}.
+
+\begin{thebibliography}{99}
+\bibitem{AsakuraOtsubo} M. Asakura and N. Otsubo, \emph{CM periods, CM regulators and hypergeometric functions, I}, Canad. J. Math. 70 (2018), 481--514; arXiv:1503.07962.
+\bibitem{Blasius} D. Blasius, \emph{On the critical values of Hecke $L$-series}, Ann. of Math. (2) 124 (1986), 23--63.
+\bibitem{BlochKato} S. Bloch and K. Kato, \emph{$L$-functions and Tamagawa numbers of motives}, in: The Grothendieck Festschrift, Vol.~I, Progr. Math. 86, Birkh\"auser, Boston, 1990, 333--400.
+\bibitem{Damerell} R. M. Damerell, \emph{$L$-functions of elliptic curves with complex multiplication, I}, Acta Arith. 17 (1970), 287--301.
+\bibitem{Deligne} P. Deligne, \emph{Valeurs de fonctions $L$ et p\'eriodes d'int\'egrales}, in: Automorphic Forms, Representations and $L$-functions, Proc. Sympos. Pure Math. 33, Part 2, Amer. Math. Soc., 1979, 313--346.
+\bibitem{DLMF} \emph{NIST Digital Library of Mathematical Functions}, Sections 5.5, 5.11, 15.4, 16.12, \url{https://dlmf.nist.gov/}.
+\bibitem{Dokchitser} T. Dokchitser, \emph{Computing special values of motivic $L$-functions}, Experiment. Math. 13 (2004), 137--149.
+\bibitem{GrossRohrlich} B. H. Gross and D. E. Rohrlich, \emph{Some results on the Mordell--Weil group of the Jacobian of the Fermat curve}, Invent. Math. 44 (1978), 201--224.
+\bibitem{HarderSchappacher} G. Harder and N. Schappacher, \emph{Special values of Hecke $L$-functions and abelian integrals}, in: Arbeitstagung Bonn 1984, Lecture Notes in Math. 1111, Springer, 1985, 17--49.
+\bibitem{JLS} Y. Jin, D. Liu, and B. Sun, \emph{On Deligne's conjecture for Hecke characters}, arXiv:2509.18921.
+\bibitem{Katz} N. M. Katz, \emph{$p$-adic interpolation of real analytic Eisenstein series}, Ann. of Math. (2) 104 (1976), 459--571.
+\bibitem{KS} G. Kings and J. Sprang, \emph{Eisenstein--Kronecker classes, integrality of critical values of Hecke $L$-functions and $p$-adic interpolation}, Ann. of Math. (2) 202 (2025), 1--109. Numbered statements cited here refer to arXiv:1912.03657v4.
+\bibitem{KSsurvey} G. Kings and J. Sprang, \emph{Algebraicity of critical Hecke $L$-values}, arXiv:2511.05198.
+\bibitem{Kufner} H.-U. Kufner, \emph{Deligne's conjecture on the critical values of Hecke $L$-functions}, arXiv:2406.06148.
+\bibitem{Lichtenbaum} S. Lichtenbaum, \emph{Values of $L$-functions of Jacobi-sum Hecke characters of abelian fields}, in: Number Theory Related to Fermat's Last Theorem, Progr. Math. 26, Birkh\"auser, Boston, 1982.
+\bibitem{Milne} J. S. Milne, \emph{Abelian varieties with complex multiplication (for pedestrians)}, 1981, revised 1998, \url{https://www.jmilne.org/math/articles/1981dT.pdf}.
+\bibitem{Neukirch} J. Neukirch, \emph{Algebraic Number Theory}, Grundlehren Math. Wiss. 322, Springer, Berlin, 1999.
+\bibitem{OtsuboJacobi} N. Otsubo, \emph{On special values of Jacobi-sum Hecke $L$-functions}, arXiv:1404.7476.
+\bibitem{ShimuraCM} G. Shimura, \emph{Abelian Varieties with Complex Multiplication and Modular Functions}, Princeton Univ. Press, 1998.
+\bibitem{Washington} L. C. Washington, \emph{Introduction to Cyclotomic Fields}, 2nd ed., Grad. Texts in Math. 83, Springer, New York, 1997.
+\bibitem{Weil} A. Weil, \emph{Jacobi sums as ``Gr\"ossencharaktere''}, Trans. Amer. Math. Soc. 73 (1952), 487--495.
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,38 @@
+Certificate for L_K(Psi,2), K = Q(zeta_7); precision 320 bits
+
+Part A: exact identities in Z[zeta_7]
+  ok   nu(zeta)=zeta, P_S(zeta)^2=zeta^6
+  ok   nu(1+zeta)=zeta^4, P_S(1+zeta)^2=zeta^3   (unit invariance, Sec. 2.1)
+  ok   Psi((1-zeta)) = -7   (eq. (5))
+  ok   49 residue units modulo 2
+  ok   nu(sigma_r a) = sigma_r nu(a) on all residue units   (eq. (4))
+  ok   Fourier inversion (19): 8 nu(a) = sum_b nu(b)^-1 (-1)^Tr(ab), all 64 residues
+  ok   ((z-1)(z^2-1)(z^3-1))^2 = -7 z^6   (eq. (7))
+  ok   Galois multipliers: P_S(u_r)^2, nu(u_r), nu(v_r), prod_Sigma sigma_a(v_r)^2 = nu(v_r)
+  ok   N(a29)=29, N(a43)=43
+  ok   A* = 3A_c29 - 2A_c43 = -4U   (eq. (15))
+  ok   U is a unit at both primes above 2
+  ok   U = 112 - 270 l + 354 l^2 - 251 l^3 + 96 l^4 - 15 l^5, l = 1 - zeta
+  ok   ten tensor coefficients at seven (table in Sec. 4.4)
+
+Part B: exact Dirichlet coefficients a_n for n <= 10000
+  verified 1234 prime-ideal generators by exact norms
+  283 nonzero coefficients; a_7 = -7, a_29 = 62, a_43 = -50
+  ok   |a_n| <= n d_6(n) for all n <= NMAX   (eq. (22))
+
+Part C: interval evaluation
+  pi      in [3.141592653589793, 3.141592653589793]
+  gamma_E in [0.5772156649015329, 0.5772156649015329]
+  Q       in [4.181147436013634, 4.181147436013634]
+  outer tail bound (25): 2.852e-06
+  L(2)    in [0.9823669898474929, 0.9823726936721673]
+  I_0     in [1.185544030601757, 1.185544030601757]
+  I_1     in [0.6753622653144994, 0.6753622653144994]
+  I_2     in [0.5001842179178402, 0.5001842179178402]
+  q       in [0.01785709101617232, 0.01785719469811339]
+  1792 q  in [31.9999071009808, 32.00009289901919]
+  ok   |1792 q - 32| < 1/100   (eq. (26))
+
+Conclusion: with Proposition 4.2 (1792 q in Z), q = 32/1792 = 1/56,
+            so L_K(Psi,2) = (49/8)(I_0 I_1 I_2)^2.
+Total time 6.5 s
