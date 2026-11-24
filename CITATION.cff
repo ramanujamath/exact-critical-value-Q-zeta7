@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Certificate for an exact critical value of a Hecke L-function over Q(zeta_7)"
+authors:
+  - name: "Ramanuja"
+    email: "ramanujamath@yahoo.com"
+repository-code: "https://github.com/ramanujamath/exact-critical-value-Q-zeta7"
+version: "1.0"
+date-released: "2026-11-24"

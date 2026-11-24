@@ -1,0 +1,7 @@
+{
+  "title": "Certificate for an exact critical value of a Hecke L-function over Q(zeta_7)",
+  "description": "Rigorous interval-arithmetic certificate (standard-library Python), exact algebraic checks, an independent floating-point cross-check, and the manuscript for the evaluation L_K(Psi,2) = (49/8)(I_0 I_1 I_2)^2 of a conductor-2 Hecke character of Q(zeta_7).",
+  "upload_type": "software",
+  "creators": [{"name": "Ramanuja"}],
+  "keywords": ["Hecke character", "complex multiplication", "critical L-value", "Deligne conjecture", "interval arithmetic", "certified computation"]
+}
